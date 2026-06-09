@@ -5,5 +5,6 @@ void app_main(void)
 {
 	
 	/*TODO --> Inicializar el sistema y crear tareas*/
-
+	system_state_init();  //inicializacion 
+    app_tasks_create();   // tareas
 }
