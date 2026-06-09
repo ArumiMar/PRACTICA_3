@@ -3,13 +3,13 @@
 #include "app_config.h"
 #include "system_state.h"
 #include "leds.h"
-#include "button.h"
+#include "buttons.h"
 #include "counter.h"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
-#include "esp_logs.h"
+#include "esp_log.h"
 
 static const char *TAG = "MANAGER";
 
@@ -52,7 +52,7 @@ static const char *state_to_string(eTaskState state)
     switch (eTaskState)
     {
         case eRunning:
-            return "SUSPENDED";
+            return "RUNNING";
 
         case eReady:
             return "READY";
@@ -61,7 +61,7 @@ static const char *state_to_string(eTaskState state)
             return "BLOCKED";
 
         case eSuspended:
-            return "RUNNING";
+            return "SUSPENDED";
 
         case eDeleted:
             return "DELETED";
@@ -173,9 +173,9 @@ static void task_manager(void *pvParameters)
 
     while (1)
     {
-        ManagerEvent_t events;
+        ManagerEvent_t event;
 
-        events = g_system.pending_event;
+        event = g_system.pending_event;
 
         if (event != MANAGER_EVENT_NONE)
         {
