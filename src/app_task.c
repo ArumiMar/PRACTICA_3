@@ -23,21 +23,28 @@ static TaskHandle_t h_manager;
 static LedTaskParams_t led_params[4] =
 {
     /*TODO*/
+    {LED_B0, 0, "LED_B0"},
+    {LED_B1, 1, "LED_B1"},
+    {LED_B2, 2, "LED_B2"},
+    {LED_B3, 3, "LED_B3"}
 };
 
 static ButtonTaskParams_t btn_start =
 {
     /*TODO*/
+    BTN_START, 'S', BUTTON_START_PAUSE
 };
 
 static ButtonTaskParams_t btn_dir =
 {
     /*TODO*/
+    BTN_DIR, 'D', BUTTON_DIRECTION
 };
 
 static ButtonTaskParams_t btn_speed =
 {
     /*TODO*/
+    BTN_SPEED, 'V', BUTTON_SPEED
 };
 
 static const char *state_to_string(eTaskState state)
@@ -75,12 +82,13 @@ static void manager_pause_system(void)
        - NO regresa solo; necesita vTaskResume()
     */
     /*TODO*/
-
+    vTaskSuspend(h_counter);
     /*
        Se suspenden botones que NO deben funcionar en pausa.
        Solo queda activo START/PAUSE.
     */
-    
+    vTaskSuspend(h_btn_dir);
+    vTaskSuspend(h_btn_speed);    
 	/*TODO*/
 
     ESP_LOGW(TAG, "Sistema PAUSADO");
@@ -235,9 +243,20 @@ void app_tasks_create(void)
 {
     
 	/* TODO --> Creación de tareas */
-	
-	
+    for (int i = 0; i < 4; i++) {
+        xTaskCreate(led_task, led_params[i].name, 2048, &led_params[i], 1, &h_leds[i]);
+    }
+    // tareas para botones 
+    xTaskCreate(button_task, "BTN_START_TASK", 2048, &btn_start, 2, &h_btn_start);
+    xTaskCreate(button_task, "BTN_DIR_TASK", 2048, &btn_dir, 2, &h_btn_dir);
+    xTaskCreate(button_task, "BTN_SPEED_TASK", 2048, &btn_speed, 2, &h_btn_speed);
 
+    //tarea para contador
+    xTaskCreate(counter_task, "COUNTER_TASK", 2048, NULL, 1, &h_counter);
+
+    // tarea para manager
+    xTaskCreate(task_manager, "MANAGER_TASK", 2048, NULL, 3, &h_manager);	
+	
     /*
        Estado inicial:
        - contador pausado
