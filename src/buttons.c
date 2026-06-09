@@ -2,7 +2,7 @@
 #include "app_config.h"
 
 #include "freertos/FreeRTOS.h"
-#include "freertos/tasks.h"
+#include "freertos/task.h"
 
 #include "driver/gpio.h"
 #include "esp_log.h"

@@ -49,7 +49,7 @@ static ButtonTaskParams_t btn_speed =
 
 static const char *state_to_string(eTaskState state)
 {
-    switch (eTaskState)
+    switch (state)
     {
         case eRunning:
             return "RUNNING";
@@ -208,7 +208,7 @@ static void task_manager(void *pvParameters)
                     {
                         ESP_LOGW(TAG,"Direccion ignorada: sistema pausado");
                     }
-                    
+                break;  
 
                 case MANAGER_EVENT_START_PAUSE:
                     if (g_system.mode == SYSTEM_RUNNING)
