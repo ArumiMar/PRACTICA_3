@@ -120,7 +120,7 @@ static void manager_toggle_direction(void)
     }
     else
     {
-        g_system.direction = COUNT_DOWN;
+        g_system.direction = COUNT_UP;
     }
 
     ESP_LOGI(TAG,"Nueva direccion: %s",g_system.direction == COUNT_UP ? "UP" : "DOWN");
@@ -134,7 +134,7 @@ static void manager_toggle_speed(void)
     }
     else
     {
-        g_system.period_ms = SPEED_FAST_MS;
+        g_system.period_ms = SPEED_SLOW_MS;
     }
 
     ESP_LOGI(TAG,"Nueva velocidad: %lu ms",(unsigned long)g_system.period_ms);
@@ -191,11 +191,11 @@ static void task_manager(void *pvParameters)
                 case MANAGER_EVENT_SPEED:
                     if (g_system.mode == SYSTEM_RUNNING)
                     {
-                        manager_run_system();
+                        manager_toggle_speed();
                     }
                     else
                     {
-                        manager_run_system();
+                        ESP_LOGW(TAG,"Velocidad ignorada: sistema pausado");
                     }
                     break;
 
@@ -213,11 +213,11 @@ static void task_manager(void *pvParameters)
                 case MANAGER_EVENT_START_PAUSE:
                     if (g_system.mode == SYSTEM_RUNNING)
                     {
-                        manager_toggle_speed();
+                        manager_pause_system();
                     }
                     else
                     {
-                        ESP_LOGW(TAG,"Velocidad ignorada: sistema pausado");
+                        manager_run_system();
                     }
                     break;
 
@@ -235,7 +235,7 @@ static void task_manager(void *pvParameters)
             manager_print_states();
         }
 
-        vTaskDelay(pdMS_TO_TICKS(20000));
+        vTaskDelay(pdMS_TO_TICKS(20));
     }
 }
 

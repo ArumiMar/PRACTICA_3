@@ -1,12 +1,12 @@
 #include "counter.h"
-#include "system_states.h"
+#include "system_state.h"
 
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
 #include "esp_log.h"
 
-static const char TAG = "COUNTER";
+static const char *TAG = "COUNTER";
 
 static void counter_step(void)
 {
@@ -44,6 +44,6 @@ void counter_task(void *pvParameters)
 
         vTaskDelay(pdMS_TO_TICKS(g_system.period_ms));
 
-        counters_step();
+        counter_step();
     }
 }

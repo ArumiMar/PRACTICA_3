@@ -31,7 +31,7 @@ static bool debounce_update(uint8_t gpio, Debounce_t *db)
     {
         if (db->count < DEBOUNCE_COUNT)
         {
-            db->count--;
+            db->count++;
         }
     }
     else
@@ -51,9 +51,9 @@ static bool debounce_update(uint8_t gpio, Debounce_t *db)
                no presionado = 1
                presionado    = 0
             */
-            if (db->stable_state == 1)
+            if (db->stable_state == 0)
             {
-                pressed_event = false;
+                pressed_event = true;
             }
         }
     }
@@ -89,19 +89,19 @@ void button_task(void *pvParameters)
                 case BUTTON_START_PAUSE:
 					/*TODO : El manager cambia a MANAGER_EVENT_START_PAUSE*/
                     g_system.pending_event = MANAGER_EVENT_START_PAUSE;
-                    ESP_LOGI(TAG, "%s presionado", cfg->name);
+                    ESP_LOGI(TAG, "%c presionado", cfg->name);
                     break;
 
                 case BUTTON_DIRECTION:
                     /*TODO : El manager cambia a MANAGER_EVENT_DIRECTION */
 					g_system.pending_event = MANAGER_EVENT_DIRECTION;
-                    ESP_LOGI(TAG, "%s presionado", cfg->name);
+                    ESP_LOGI(TAG, "%c presionado", cfg->name);
                     break;
 
                 case BUTTON_SPEED:
 					/*TODO : El manager cambia a MANAGER_EVENT_SPEED */
                     g_system.pending_event = MANAGER_EVENT_SPEED;
-                    ESP_LOGI(TAG, "%s presionado", cfg->name);
+                    ESP_LOGI(TAG, "%c presionado", cfg->name);
                     break;
 
                 default:
@@ -109,6 +109,6 @@ void button_task(void *pvParameters)
             }
         }
 
-        vTaskDelay(pdMS_TO_TICKS(BUTTONS_POLL_MS));
+        vTaskDelay(pdMS_TO_TICKS(BUTTON_POLL_MS));
     }
 }
