@@ -31,7 +31,7 @@ static bool debounce_update(uint8_t gpio, Debounce_t *db)
     {
         if (db->count < DEBOUNCE_COUNT)
         {
-            db->count++;
+            db->count++;  // se reemplaz la resta por suma. el contador se iba a numeros negativos y jamas alcanzaba el umbral necesario para validar el botonn
         }
     }
     else
@@ -51,7 +51,7 @@ static bool debounce_update(uint8_t gpio, Debounce_t *db)
                no presionado = 1
                presionado    = 0
             */
-            if (db->stable_state == 0)
+            if (db->stable_state == 0)  //se agrego la bandera true para detectar el 0. la funcion original devolvia false, lo que ignoraba la pulsacion del boton
             {
                 pressed_event = true;
             }
@@ -89,7 +89,7 @@ void button_task(void *pvParameters)
                 case BUTTON_START_PAUSE:
 					/*TODO : El manager cambia a MANAGER_EVENT_START_PAUSE*/
                     g_system.pending_event = MANAGER_EVENT_START_PAUSE;
-                    ESP_LOGI(TAG, "%c presionado", cfg->name);
+                    ESP_LOGI(TAG, "%c presionado", cfg->name);    //se cambio el formato %s por %c, ya que imprimir con string causaba desbordamiento en la memoria 
                     break;
 
                 case BUTTON_DIRECTION:
