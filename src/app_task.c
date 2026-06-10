@@ -120,7 +120,7 @@ static void manager_toggle_direction(void)
     }
     else
     {
-        g_system.direction = COUNT_UP;
+        g_system.direction = COUNT_UP;  //correccion en la logica de retorno, para evitar que se atascara 
     }
 
     ESP_LOGI(TAG,"Nueva direccion: %s",g_system.direction == COUNT_UP ? "UP" : "DOWN");
@@ -188,6 +188,7 @@ static void task_manager(void *pvParameters)
 
             switch (event)
             {
+                // se reasignaron las rutas de los casos a su evento correcto. las acciones estaban cruzadas 
                 case MANAGER_EVENT_SPEED:
                     if (g_system.mode == SYSTEM_RUNNING)
                     {
