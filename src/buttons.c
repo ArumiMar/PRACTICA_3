@@ -89,19 +89,19 @@ void button_task(void *pvParameters)
                 case BUTTON_START_PAUSE:
 					/*TODO : El manager cambia a MANAGER_EVENT_START_PAUSE*/
                     g_system.pending_event = MANAGER_EVENT_START_PAUSE;
-                    ESP_LOGI(TAG, "%c presionado", cfg->name);
+                    ESP_LOGI(TAG, "%s presionado", cfg->name);
                     break;
 
                 case BUTTON_DIRECTION:
                     /*TODO : El manager cambia a MANAGER_EVENT_DIRECTION */
 					g_system.pending_event = MANAGER_EVENT_DIRECTION;
-                    ESP_LOGI(TAG, "%c presionado", cfg->name);
+                    ESP_LOGI(TAG, "%s presionado", cfg->name);
                     break;
 
                 case BUTTON_SPEED:
 					/*TODO : El manager cambia a MANAGER_EVENT_SPEED */
                     g_system.pending_event = MANAGER_EVENT_SPEED;
-                    ESP_LOGI(TAG, "%c presionado", cfg->name);
+                    ESP_LOGI(TAG, "%s presionado", cfg->name);
                     break;
 
                 default:

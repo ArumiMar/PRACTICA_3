@@ -235,7 +235,7 @@ static void task_manager(void *pvParameters)
             manager_print_states();
         }
 
-        vTaskDelay(pdMS_TO_TICKS(20));
+        vTaskDelay(pdMS_TO_TICKS(20));  //ajuste de tiempo 
     }
 }
 
