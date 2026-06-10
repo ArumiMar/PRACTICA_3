@@ -142,7 +142,7 @@ static void manager_toggle_speed(void)
 
 static void manager_print_states(void)
 {
-    ESP_LOGI(TAG, "------ ESTADOS ------");
+    ESP_LOGI(TAG, "---- ESTADOS ----");
 
     ESP_LOGI(TAG,"COUNTER: %s",state_to_string(eTaskGetState(h_counter)));
 
